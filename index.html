@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Open Media Foundation Code Challenge</title>
+  <!--[if lt IE 9]>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv.js"></script>
+  <![endif]-->
+</head>
+
+<body>
+    <h1>Jon Feigitsch</h1>
+    <h1>Open Media Foundation -Web Internship Code Challenge</h1>
+    <hr>
+    <p>Given the following array, determine the value of the smallest integer that is missing from this sequence of non-negative numbers using your choice of programming language. 
+    </p>
+    <h2>var myArray = [8, 4, 8, 9, 16, 1, 14, 7, 19, 3, 0, 5, 2, 11, 6];</h2>
+    <p>Briefly summarize the benefits of your approach.
+    </p>
+    <hr>
+    
+    <h2>Outline.</h2>
+    <p>Note:  We can use the "Inspect" capabilities built into the browser to review the contents of the Console throughout this process.</p>
+      
+
+    
+<h3>Step 1.)  Declare the values in the array.</h3>
+    <p>var myArray = [8,4,8,9,16,1,14,7,19,3,0,5,2,11,6];</p>
+
+    <h3>Step 2.)  Sort the array so that the numbers are in ascending order.</h3>
+    <p>The below function is used instead of the default .sort() method because the standard .sort() would convert the numbers in our array  to strings and then would sort them based on the resulting Unicode values, so the results would not be in ascending order as expected.
+    <br>
+    For example, based simply on their Unicode values, "11" would appear in the array before "2", so instead, we will use the following function:
+</p>
+<pre>
+var myArraySorted = (myArray.sort(function(a,b){
+            return a - b
+            }
+        )
+    );
+    
+console.log(myArraySorted);
+</pre>
+
+
+    <h3>Step 3.)  Remove duplicate entries from the array.</h3>
+<p>
+The nested for-loops run through the sorted array and compare the value in the first index (i) with the value in the index directly following it (j=i+1). 
+<br>
+Since the array is in ascending order, the === comparison will reveal duplicate values.
+<br>
+The splice() method will then remove 1 item from the "myArray[i]" index position as requested.
+</p>
+<p>This step will alter the original array, but is appropriate
+for this exercise.
+</p>
+<pre>for(i=0; i &#60 myArray.length; i+=1 ){
+            for( j=i+1; j &#60 myArray.length; j+=1 ){
+                if(myArray[i]===myArray[j]){
+                    myArray.splice(myArray[i], 1);
+                }
+            }
+        };
+console.log(myArray);
+</pre>
+
+    
+    
+<h3>Step 4.)  Now we have an array filled with unique values in ascending order and we can compare our values sequentially.</h3>
+<p>When we review our array of ascending numbers, we recognize that the value that is held at index-0 is the value 0,
+so we can use this fact as a starting place for determining the smallest value that is missing from our array. 
+</p>
+    
+<p>Again we will use a for-loop to run through the values in our array and again we will compare the value held in one index position with the value held in the index position that directly follows it.</p>
+<p>In comparing the values held in the two neighboring indexes, we will determine whether the difference between these values is greater than 1, and if it is, we will conclude that there is a break in the series of sequential integers at this point.</p>
+<pre>
+for(i=0; i &#60 myArray.length; i++){   
+        if((myArray[i+1] - myArray[i]) > 1)
+            {
+            answer = (myArray[i]+1);
+            console.log(myArray[i]+1);
+            break;
+            }
+        };
+</pre>
+<p>We can use our resulting answer to update our concluding statement.</p>  
+<pre>
+document.getElementById("result").innerHTML = answer; 
+</pre>
+<br>
+
+<hr>
+<h2>Conclusion.</h2>
+    <p>When all of these simple, straightforward steps are run together as a program, we come to the following conclusion:
+    </p>
+    
+    <pre>
+    var myArray = [8,4,8,9,16,1,14,7,19,3,0,5,2,11,6];
+    var myArraySorted = (myArray.sort(function(a,b){
+            return a - b
+            }
+        )
+    );
+    for(i=0; i &#60 myArray.length; i+=1 ){
+            for( j=i+1; j &#60 myArray.length; j+=1 ){
+                if(myArray[i]===myArray[j]){
+                    myArray.splice(myArray[i], 1);
+                }
+            }
+        };
+      for(i=0; i &#60 myArray.length; i++){   
+        if((myArray[i+1] - myArray[i]) > 1){
+            answer = (myArray[i]+1);
+            console.log(myArray[i]+1);
+            break;
+            }
+        }
+
+    document.getElementById("result").innerHTML = answer; 
+    </pre>
+    
+    <h2>Given the above array of numbers, we have determined that the number
+    <span id="result"></span>
+    is the smallest integer that is missing from this sequence of non-negative numbers.</h2>
+    
+    
+<script src="OpenMediaFoundation.js"></script>
+</body>
+</html>
